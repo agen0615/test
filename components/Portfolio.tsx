@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { projects } from '../data/projects';
 import { Project } from '../types';
+import { ArrowUp } from 'lucide-react';
 
 interface PortfolioProps {
   onProjectClick?: (id: number) => void;
 }
 
 export const Portfolio: React.FC<PortfolioProps> = ({ onProjectClick }) => {
+  const INITIAL_COUNT = 6;
   const [filter, setFilter] = useState<'All' | 'Fashion' | 'Commercial' | 'Social' | 'Event'>('All');
-  const [visibleCount, setVisibleCount] = useState(4); 
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT); 
 
   const filteredProjects = filter === 'All' 
     ? projects 
@@ -18,25 +20,38 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onProjectClick }) => {
     setVisibleCount(prev => prev + 4);
   };
 
+  const handleCollapse = () => {
+    setVisibleCount(INITIAL_COUNT);
+    const section = document.getElementById('portfolio');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const isExternalEmbed = (url?: string) => {
+    if (!url) return false;
+    return url.includes('youtube.com') || url.includes('youtu.be') || url.includes('drive.google.com');
+  };
+
   return (
-    <section className="py-32 bg-p2p-black min-h-screen border-t border-white/5">
+    <section id="portfolio" className="py-24 bg-p2p-black min-h-screen">
       <div className="max-w-[1920px] mx-auto px-6 md:px-12">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
+        {/* Header - Industrial & Minimal */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/10 pb-6">
           <div>
-            <h2 className="text-xs uppercase tracking-[0.4em] text-gray-500 mb-6">Selected Works</h2>
-            <h3 className="text-5xl md:text-7xl font-serif text-white">
-              Curated <span className="italic text-gray-400">Cases</span>
+            <h2 className="text-[10px] uppercase tracking-[0.4em] text-white mb-2">Selected Works</h2>
+            <h3 className="text-xl md:text-2xl font-serif text-gray-400 italic">
+               Archive {new Date().getFullYear()}
             </h3>
           </div>
           
-          <div className="flex flex-wrap gap-8">
+          <div className="flex gap-8 mt-6 md:mt-0">
             {['All', 'Fashion', 'Commercial', 'Social', 'Event'].map((cat) => (
               <button
                 key={cat}
-                onClick={() => { setFilter(cat as any); setVisibleCount(4); }}
-                className={`text-xs uppercase tracking-widest transition-all pb-1 ${filter === cat ? 'text-white border-b border-white' : 'text-gray-600 hover:text-white'}`}
+                onClick={() => { setFilter(cat as any); setVisibleCount(INITIAL_COUNT); }}
+                className={`text-[10px] uppercase tracking-[0.2em] transition-all hover:text-white ${filter === cat ? 'text-white border-b border-white' : 'text-gray-600'}`}
               >
                 {cat}
               </button>
@@ -44,58 +59,105 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onProjectClick }) => {
           </div>
         </div>
 
-        {/* Editorial Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
-          {filteredProjects.slice(0, visibleCount).map((project, index) => (
+        {/* Masonry Layout (CSS Columns) for Mixed Aspect Ratios */}
+        <div className="columns-1 md:columns-2 gap-12 space-y-24">
+          {filteredProjects.slice(0, visibleCount).map((project) => (
             <div 
               key={project.id} 
               onClick={() => onProjectClick && onProjectClick(project.id)}
-              className={`group cursor-pointer ${index % 2 !== 0 ? 'md:translate-y-24' : ''}`} // Staggered layout for artistic feel
+              className="group cursor-pointer block break-inside-avoid mb-24"
             >
-              <div className="relative overflow-hidden mb-8 aspect-[4/5] bg-gray-900">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                <div className="absolute bottom-6 right-6 bg-white text-black px-4 py-2 text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                  View Case
-                </div>
+              {/* Media Container - Dynamic Aspect Ratio */}
+              <div className={`relative overflow-hidden w-full bg-gray-900 mb-6 ${project.orientation === 'portrait' ? 'aspect-[3/4]' : 'aspect-video'}`}>
+                {/* 
+                  Logic: 
+                  1. If it's a file video (mp4), try to auto-play muted in grid for effect.
+                  2. If it's YouTube or Google Drive, show the static image cover (autoplay iframes are too heavy for grids).
+                  3. If no video, show image.
+                */}
+                {project.videoUrl && !isExternalEmbed(project.videoUrl) ? (
+                   <video 
+                     src={project.videoUrl}
+                     poster={project.image}
+                     autoPlay
+                     muted
+                     loop
+                     playsInline
+                     preload="auto"
+                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                     onError={(e) => {
+                       console.warn("Grid video failed, fallback handled by poster");
+                     }}
+                   />
+                ) : (
+                   <img 
+                     src={project.image} 
+                     alt={project.title}
+                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                   />
+                )}
+                
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </div>
               
-              <div className="flex justify-between items-start border-t border-white/10 pt-6">
-                <div>
-                   <h3 className="text-3xl font-serif text-white mb-2 group-hover:translate-x-2 transition-transform duration-500">{project.title}</h3>
-                   <p className="text-gray-500 text-sm tracking-wide">{project.client}</p>
-                </div>
-                <div className="text-right">
-                   <span className="block text-xs uppercase tracking-widest text-p2p-accent mb-2">{project.category}</span>
-                   <span className="text-xs text-gray-600">{project.year}</span>
-                </div>
+              {/* Info - Strict Alignment */}
+              <div className="flex flex-col gap-1">
+                 <div className="flex justify-between items-baseline border-t border-white/10 pt-4">
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium group-hover:text-p2p-accent transition-colors">
+                      {project.client}
+                    </span>
+                    <span className="text-[10px] text-gray-600 font-mono">
+                      {project.year}
+                    </span>
+                 </div>
+                 
+                 <div className="flex justify-between items-start mt-1">
+                   <h3 className="text-2xl md:text-3xl font-serif text-white group-hover:text-gray-300 transition-colors">
+                     {project.title}
+                   </h3>
+                   <span className="text-[10px] uppercase tracking-wider text-gray-600 hidden md:block border border-white/10 px-2 py-1 rounded-full">
+                     {project.category}
+                   </span>
+                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Future Scalability: Load More */}
-        {visibleCount < filteredProjects.length && (
-            <div className="mt-40 text-center">
+        {/* Load More & Collapse Controls */}
+        <div className="mt-32 flex flex-col items-center gap-6">
+            
+            {/* Show Load More if there are more items to see */}
+            {visibleCount < filteredProjects.length && (
                 <button 
                   onClick={handleLoadMore}
-                  className="px-12 py-4 border border-white/20 text-white text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500"
+                  className="group relative px-8 py-3 overflow-hidden rounded-full bg-transparent border border-white/20 text-white text-[10px] uppercase tracking-[0.2em] hover:border-white transition-colors"
                 >
-                  Explore Archive
+                  <span className="relative z-10">Load More</span>
+                  <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 -z-0"></div>
+                  <span className="absolute inset-0 z-10 flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-opacity duration-500">Load More</span>
                 </button>
-            </div>
-        )}
+            )}
+
+            {/* Show Collapse if we've expanded beyond initial count */}
+            {visibleCount > INITIAL_COUNT && (
+                 <button 
+                  onClick={handleCollapse}
+                  className="text-[10px] uppercase tracking-[0.2em] text-gray-500 hover:text-white flex items-center gap-2 transition-colors py-2 border-b border-transparent hover:border-white/50"
+                >
+                  Collapse <ArrowUp size={12} />
+                </button>
+            )}
+            
+            {/* Status Text if everything is loaded and we have no collapse option (i.e. list is short) */}
+            {visibleCount >= filteredProjects.length && visibleCount <= INITIAL_COUNT && filteredProjects.length > 0 && (
+               <div className="text-gray-700 text-[10px] uppercase tracking-[0.2em]">
+                  End of Archive
+               </div>
+            )}
+        </div>
         
-        {/* Message when all projects are loaded */}
-        {visibleCount >= filteredProjects.length && filteredProjects.length > 0 && (
-           <div className="mt-40 text-center text-gray-600 text-xs uppercase tracking-widest">
-              End of Selection
-           </div>
-        )}
       </div>
     </section>
   );

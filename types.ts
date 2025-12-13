@@ -4,9 +4,11 @@ export interface Project {
   id: number;
   title: string;
   category: 'Fashion' | 'Commercial' | 'Social' | 'Event';
+  orientation?: 'landscape' | 'portrait'; // New property for aspect ratio control
   client: string;
   year: string;
-  image: string; // Main Hero Image
+  image: string; // Static Cover Image (Poster)
+  videoUrl?: string; // Optional Video Source
   description: string;
   challenge: string;
   solution: string;

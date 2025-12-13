@@ -4,7 +4,6 @@ import { Portfolio } from './components/Portfolio';
 import { Services } from './components/Services';
 import { About } from './components/About';
 import { Contact } from './components/Contact';
-import { AICreativeDirector } from './components/AICreativeDirector';
 import { Footer } from './components/Footer';
 import { ProjectDetail } from './components/ProjectDetail';
 import { ServiceDetail } from './components/ServiceDetail';
@@ -150,7 +149,6 @@ const App: React.FC = () => {
             
             <Portfolio onProjectClick={handleProjectClick} />
             <Services onServiceClick={handleServiceClick} />
-            <AICreativeDirector />
             <About />
             <Contact />
           </main>
@@ -162,7 +160,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-p2p-black text-white font-sans selection:bg-white selection:text-black">
       <Navigation currentPage={currentPage} setPage={setCurrentPage} />
       {renderContent()}
-      <Footer />
+      <Footer setPage={setCurrentPage} />
     </div>
   );
 };

@@ -1,7 +1,12 @@
 import React from 'react';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
+import { PageState } from '../types';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  setPage?: (page: PageState) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ setPage }) => {
   return (
     <footer className="bg-black border-t border-white/10 pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6">
@@ -46,7 +51,9 @@ export const Footer: React.FC = () => {
         
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-xs text-gray-500 uppercase tracking-wider">
           <p>&copy; {new Date().getFullYear()} Pair to Pair Studio. All rights reserved.</p>
-          <p>New York &mdash; Asia</p>
+          <div className="flex items-center gap-6">
+             <p>New York &mdash; Asia</p>
+          </div>
         </div>
       </div>
     </footer>
