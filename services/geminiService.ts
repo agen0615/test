@@ -1,7 +1,25 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AIGeneratedConcept } from "../types";
 
-const apiKey = process.env.API_KEY || '';
+// Safely access env vars to avoid crashes in browser environments
+const getApiKey = () => {
+  try {
+    // Check for Vite style env vars
+    const meta = import.meta as any;
+    if (typeof meta !== 'undefined' && meta.env && meta.env.VITE_API_KEY) {
+      return meta.env.VITE_API_KEY;
+    }
+    // Check for standard process.env (Node/CRA)
+    if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+      return process.env.API_KEY;
+    }
+  } catch (e) {
+    console.warn("Could not access environment variables");
+  }
+  return '';
+};
+
+const apiKey = getApiKey();
 const ai = new GoogleGenAI({ apiKey });
 
 export const generateCreativeBrief = async (
