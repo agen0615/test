@@ -172,17 +172,17 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack, o
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
           
           {/* Left: Project Data / Credits */}
-          <div className="lg:col-span-4 space-y-12">
+          <div className="lg:col-span-4 space-y-12 h-fit lg:sticky lg:top-32">
              <div className="border-t border-black/10 pt-4">
-               <h3 className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6">Client</h3>
-               <p className="text-xl font-serif">{project.client}</p>
+               <h3 className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6">Summary</h3>
+               <p className="text-lg text-gray-800 leading-relaxed font-serif italic">
+                 "{project.description}"
+               </p>
              </div>
 
              <div className="border-t border-black/10 pt-4">
-               <h3 className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6">Scope</h3>
-               <p className="text-lg text-gray-800">
-                 Creative Direction, Production, <br/> Post-Production
-               </p>
+               <h3 className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6">Client</h3>
+               <p className="text-xl font-serif">{project.client}</p>
              </div>
 
              <div className="border-t border-black/10 pt-4">
@@ -198,15 +198,45 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack, o
              </div>
           </div>
 
-          {/* Right: Narrative */}
-          <div className="lg:col-span-8">
-             <h2 className="text-3xl md:text-5xl font-serif leading-tight mb-12">
-               {project.solution}
-             </h2>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-gray-600 leading-relaxed font-light text-lg">
-                <p>{project.challenge}</p>
-                <p>{project.description}</p>
+          {/* Right: Narrative (Problem, Solution, Result) */}
+          <div className="lg:col-span-8 space-y-16">
+             
+             {/* Problem Section */}
+             <div>
+                <h3 className="text-xs uppercase tracking-[0.2em] text-p2p-accent font-bold mb-4 flex items-center gap-2">
+                  01. The Problem
+                </h3>
+                <h2 className="text-2xl md:text-3xl font-serif leading-tight mb-6">
+                  Identifying the gap.
+                </h2>
+                <p className="text-gray-600 leading-relaxed font-light text-lg">
+                  {project.problem}
+                </p>
              </div>
+
+             {/* Solution Section */}
+             <div className="pl-6 border-l border-black/10">
+                <h3 className="text-xs uppercase tracking-[0.2em] text-p2p-accent font-bold mb-4 flex items-center gap-2">
+                  02. Our Solution
+                </h3>
+                <h2 className="text-2xl md:text-3xl font-serif leading-tight mb-6">
+                  Commercial strategy meets aesthetic.
+                </h2>
+                <p className="text-gray-600 leading-relaxed font-light text-lg">
+                  {project.solution}
+                </p>
+             </div>
+
+             {/* Result Section */}
+             <div className="bg-gray-50 p-8 md:p-12 border border-black/5">
+                <h3 className="text-xs uppercase tracking-[0.2em] text-p2p-accent font-bold mb-4 flex items-center gap-2">
+                  03. The Result
+                </h3>
+                <p className="text-xl md:text-2xl font-serif leading-relaxed text-black">
+                  {project.result}
+                </p>
+             </div>
+
           </div>
         </div>
       </section>

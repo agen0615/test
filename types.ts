@@ -9,9 +9,10 @@ export interface Project {
   year: string;
   image: string; // Static Cover Image (Poster)
   videoUrl?: string; // Optional Video Source
-  description: string;
-  challenge: string;
-  solution: string;
+  description: string; // One liner summary
+  problem: string; // Previously challenge
+  solution: string; // The "How" (lighting, casting, tone)
+  result: string; // The ROI/Outcome
   credits: { role: string; name: string }[];
   gallery: string[]; // Additional images
 }

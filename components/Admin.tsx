@@ -16,8 +16,9 @@ export const Admin: React.FC = () => {
     year: new Date().getFullYear().toString(),
     image: '',
     description: '',
-    challenge: '',
+    problem: '',
     solution: '',
+    result: '',
     creditsRole1: 'Director',
     creditsName1: '',
     creditsRole2: 'Photographer',
@@ -55,8 +56,9 @@ export const Admin: React.FC = () => {
     year: "${formData.year}",
     image: "${formData.image}",
     description: "${formData.description}",
-    challenge: "${formData.challenge}",
+    problem: "${formData.problem}",
     solution: "${formData.solution}",
+    result: "${formData.result}",
     credits: [
         { role: "${formData.creditsRole1}", name: "${formData.creditsName1}" },
         { role: "${formData.creditsRole2}", name: "${formData.creditsName2}" }
@@ -163,20 +165,24 @@ export const Admin: React.FC = () => {
                   </label>
                   <input name="image" value={formData.image} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none" placeholder="https://..." />
                 </div>
-                {/* ... rest of existing form ... */}
+                
                 <div>
-                  <label className="block text-xs text-gray-500 mb-2 uppercase">Short Description</label>
+                  <label className="block text-xs text-gray-500 mb-2 uppercase">Short Description (Summary)</label>
                   <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-20" placeholder="One sentence summary..." />
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-4">
                    <div>
-                    <label className="block text-xs text-gray-500 mb-2 uppercase">Challenge</label>
-                    <textarea name="challenge" value={formData.challenge} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-24" />
+                    <label className="block text-xs text-gray-500 mb-2 uppercase text-p2p-accent">The Problem (Background)</label>
+                    <textarea name="problem" value={formData.problem} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-24" placeholder="What was the client's pain point?" />
                    </div>
                    <div>
-                    <label className="block text-xs text-gray-500 mb-2 uppercase">Solution</label>
-                    <textarea name="solution" value={formData.solution} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-24" />
+                    <label className="block text-xs text-gray-500 mb-2 uppercase text-p2p-accent">The Solution (Strategy/Lighting/Tone)</label>
+                    <textarea name="solution" value={formData.solution} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-24" placeholder="How did you solve it?" />
+                   </div>
+                   <div>
+                    <label className="block text-xs text-gray-500 mb-2 uppercase text-p2p-accent">The Result (ROI/Outcome)</label>
+                    <textarea name="result" value={formData.result} onChange={handleInputChange} className="w-full bg-black border border-white/20 p-3 text-sm focus:border-white outline-none h-24" placeholder="What happened after?" />
                    </div>
                 </div>
 
