@@ -32,9 +32,7 @@ export const Footer: React.FC<FooterProps> = ({ setPage }) => {
           <div>
             <h3 className="text-sm font-bold uppercase tracking-widest mb-6 text-white">Office</h3>
             <address className="text-gray-400 not-italic space-y-2">
-              <p>123 Mercer Street</p>
-              <p>SoHo, New York, NY 10012</p>
-              <p>United States</p>
+              <p>New York & Global</p>
             </address>
           </div>
 
@@ -52,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({ setPage }) => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-xs text-gray-500 uppercase tracking-wider">
           <p>&copy; {new Date().getFullYear()} Pair to Pair Studio. All rights reserved.</p>
           <div className="flex items-center gap-6">
-             <p>New York &mdash; Asia</p>
+             <p>From vision to impact</p>
           </div>
         </div>
       </div>

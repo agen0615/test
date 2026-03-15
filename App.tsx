@@ -129,7 +129,7 @@ const App: React.FC = () => {
                 <div className="col-span-12 md:col-span-4 lg:col-span-3 flex flex-col justify-end">
                    <div className="opacity-0 animate-[fadeIn_1s_ease-out_1.2s_forwards]">
                       <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-xs">
-                        Pair to Pair connects brands with global audiences through high-fidelity aesthetics, cultural strategy, and production-first methodology.
+                        New York & Global
                       </p>
                       <button 
                         onClick={() => setCurrentPage(PageState.WORK)}

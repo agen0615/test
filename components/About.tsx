@@ -13,8 +13,8 @@ export const About: React.FC = () => {
           </h2>
           
           <h3 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-16 leading-[0.95] tracking-tight">
-            We bridge <br/> 
-            New York <span className="italic text-gray-400 font-light">&</span> Asia.
+            From vision <br/> 
+            <span className="italic text-gray-400 font-light">to</span> impact.
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 text-lg md:text-xl font-light leading-relaxed text-gray-800">
